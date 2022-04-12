@@ -1,0 +1,1 @@
+INSERT INTO clientes (nombre, apellido, nit, telefono, create_at) values ('Andres', 'lopez', '1234','12345678','2022-01-01');
