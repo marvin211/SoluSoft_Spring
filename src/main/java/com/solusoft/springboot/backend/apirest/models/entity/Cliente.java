@@ -8,11 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -35,15 +35,14 @@ public class Cliente implements Serializable {
 	private String nit;
 	private String telefono;
 	
+	@NotNull(message = "no puede estar vacio")
 	@Column(name = "create_at")
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
 	
-	//Antes de que se haga un persist en la base de datos que incluya la fecha
-	@PrePersist
-	public void prePersist() { //de forma automatica se va crear la fecha
-		createAt = new Date(); 
-	}
+	private String foto;
+	
+	
 	
 	public Long getId() {
 		return id;
@@ -82,7 +81,15 @@ public class Cliente implements Serializable {
 		this.createAt = createAt;
 	}
 	
-	
+	public String getFoto() {
+		return foto;
+	}
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+
+
+
 	private static final long serialVersionUID = 1L;
 	
 }
