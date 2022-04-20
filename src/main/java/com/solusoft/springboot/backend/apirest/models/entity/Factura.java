@@ -49,6 +49,13 @@ public class Factura implements Serializable {
 		items = new ArrayList<>();
 	}
 
+	public Double getTotal() {
+		Double total = 0.00;
+		for(ItemFactura item: items) {
+			total += item.getImporte();
+		}
+		return total;
+	}
 
 	@PrePersist
 	public void prePersist() {
