@@ -55,8 +55,7 @@ public class Cliente implements Serializable {
 	public Cliente() {
 		this.facturas = new ArrayList<>();
 	}
-	
-	
+		
 	public Long getId() {
 		return id;
 	}

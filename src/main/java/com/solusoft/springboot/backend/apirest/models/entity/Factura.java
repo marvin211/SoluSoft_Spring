@@ -20,49 +20,42 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
-@Table(name="facturas")
+@Table(name = "facturas")
 public class Factura implements Serializable {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	private String descripcion;
+
 	private String observacion;
-	
-	@Column(name="create_at")
+
+	@Column(name = "create_at")
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
-	
-	//relacion cliente factura
+
+	@JsonIgnoreProperties(value={"facturas", "hibernateLazyInitializer", "handler"}, allowSetters=true)
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Cliente cliente;
-	
-	//Una factura muchos items
+
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name="factura_id")
+	@JoinColumn(name = "factura_id")
 	private List<ItemFactura> items;
-	
-	
-	//Constructor
+
 	public Factura() {
 		items = new ArrayList<>();
-	}
-
-	public Double getTotal() {
-		Double total = 0.00;
-		for(ItemFactura item: items) {
-			total += item.getImporte();
-		}
-		return total;
 	}
 
 	@PrePersist
 	public void prePersist() {
 		this.createAt = new Date();
 	}
-	
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -102,8 +95,7 @@ public class Factura implements Serializable {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-	
-	
+
 	public List<ItemFactura> getItems() {
 		return items;
 	}
@@ -112,7 +104,13 @@ public class Factura implements Serializable {
 		this.items = items;
 	}
 
-
+	public Double getTotal() {
+		Double total = 0.00;
+		for (ItemFactura item : items) {
+			total += item.getImporte();
+		}
+		return total;
+	}
 
 	private static final long serialVersionUID = 1L;
 }
