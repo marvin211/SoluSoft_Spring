@@ -20,6 +20,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="clientes")
 public class Cliente implements Serializable {
@@ -48,6 +50,7 @@ public class Cliente implements Serializable {
 	private String foto;
 	
 	//Un cliente puede tener muchas facturas
+	@JsonIgnoreProperties({"cliente", "hibernateLazyInitializer", "handler"})
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Factura> facturas;
 	
