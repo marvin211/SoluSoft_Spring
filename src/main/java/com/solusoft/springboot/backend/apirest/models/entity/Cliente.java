@@ -32,12 +32,12 @@ public class Cliente implements Serializable {
 	
 
 	@NotEmpty(message = "no puede estar vacio")
-	@Size(min = 4, max = 25, message = "el tamaño tiene que estar entre 4 y 12 caracteres")
+	@Size(min = 3, max = 25, message = "el tamaño tiene que estar entre 4 y 25 caracteres")
 	@Column(nullable = false)//el nombre no puede ser nulo
 	private String nombre;
 	
 	@NotEmpty(message = "no puede estar vacio")
-	@Size(min = 4, max = 25, message = "el tamaño tiene que estar entre 4 y 12 caracteres")
+	@Size(min = 3, max = 25, message = "el tamaño tiene que estar entre 4 y 25 caracteres")
 	private String apellido;
 	private String nit;
 	private String telefono;
@@ -50,7 +50,7 @@ public class Cliente implements Serializable {
 	private String foto;
 	
 	//Un cliente puede tener muchas facturas
-	@JsonIgnoreProperties({"cliente", "hibernateLazyInitializer", "handler"})
+	@JsonIgnoreProperties(value={"cliente", "hibernateLazyInitializer", "handler"}, allowSetters=true)
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente", cascade = CascadeType.ALL)
 	private List<Factura> facturas;
 	

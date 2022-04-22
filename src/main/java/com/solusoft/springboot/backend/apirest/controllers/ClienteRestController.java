@@ -1,16 +1,10 @@
 package com.solusoft.springboot.backend.apirest.controllers;
 
-
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -19,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -83,14 +76,14 @@ public class ClienteRestController {
 		try {
 			cliente = clienteService.findById(id);
 		}catch(DataAccessException e) {
-			response.put("Mensaje", "Error al realizar la consulta en la base de datos");
+			response.put("mensaje", "Error al realizar la consulta en la base de datos");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 		
 		if(cliente == null) {
-			response.put("Mensaje", "El cliente con el ID: ".concat(id.toString().concat(" no existe en la base de datos...")));
+			response.put("mensaje", "El cliente con el ID: ".concat(id.toString().concat(" no existe en la base de datos...")));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);//codigo de error 404
 		}
 		
@@ -153,7 +146,7 @@ public class ClienteRestController {
 		
 		
 		if(clienteActual == null) {//Si no existe el cliente
-			response.put("Mensaje", "Error: no se pudo editar, el cliente con el ID: ".concat(id.toString().concat(" no existe en la base de datos...")));
+			response.put("mensaje", "Error: no se pudo editar, el cliente con el ID: ".concat(id.toString().concat(" no existe en la base de datos...")));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 		}
 		

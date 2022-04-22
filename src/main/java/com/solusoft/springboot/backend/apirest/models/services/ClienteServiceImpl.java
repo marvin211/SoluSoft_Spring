@@ -86,3 +86,15 @@ public class ClienteServiceImpl implements IClienteService {
 		return productoDao.findByNombre(term);
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
