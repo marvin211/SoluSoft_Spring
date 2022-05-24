@@ -3,7 +3,11 @@ package com.solusoft.springboot.backend.apirest.security.dto;
 public class Mensaje {
     private String mensaje;
 
-    public Mensaje(String mensaje) {
+    
+    public Mensaje() {
+	}
+
+	public Mensaje(String mensaje) {
         this.mensaje = mensaje;
     }
 

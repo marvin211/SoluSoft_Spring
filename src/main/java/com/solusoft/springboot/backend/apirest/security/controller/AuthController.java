@@ -32,9 +32,9 @@ import com.solusoft.springboot.backend.apirest.security.jwt.JwtProvider;
 import com.solusoft.springboot.backend.apirest.security.service.RolService;
 import com.solusoft.springboot.backend.apirest.security.service.UsuarioService;
 
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin
 public class AuthController {
 
 	@Autowired
@@ -55,7 +55,7 @@ public class AuthController {
 	@PostMapping("/nuevo")
 	public ResponseEntity<?> nuevo(@Valid @RequestBody NuevoUsuario nuevoUsuario, BindingResult bindingResult){
 		if(bindingResult.hasErrors()) {
-			return new ResponseEntity(new Mensaje("Campos mal puesto o email inválido"), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(new Mensaje("Campos inválidos o email inválido"), HttpStatus.BAD_REQUEST);
 			
 		}
 		
@@ -86,22 +86,17 @@ public class AuthController {
 	
 	
 	@PostMapping("/login")
-	public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUsuario loginUsuario, BindingResult bindingResult){
-		if(bindingResult.hasErrors()) {
-			return new ResponseEntity(new Mensaje("Campos mal puestos"), HttpStatus.BAD_REQUEST);
-		}
-		
-		Authentication authentication = 
-				authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUsuario.getNombreUsuario(), loginUsuario.getPassword()));
-	
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		
-		String jwt = jwtProvider.generateToken(authentication);
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
-		
-		return new ResponseEntity(jwtDto, HttpStatus.OK);
-	}
+	   public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginUsuario loginUsuario, BindingResult bindingResult){
+        if(bindingResult.hasErrors())
+            return new ResponseEntity(new Mensaje("campos mal puestos"), HttpStatus.BAD_REQUEST);
+        Authentication authentication =
+                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUsuario.getNombreUsuario(), loginUsuario.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtProvider.generateToken(authentication);
+        UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+        JwtDto jwtDto = new JwtDto(jwt, userDetails.getUsername(), userDetails.getAuthorities());
+        return new ResponseEntity(jwtDto, HttpStatus.OK);
+    }
 }
 
 
