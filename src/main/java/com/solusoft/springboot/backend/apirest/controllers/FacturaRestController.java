@@ -18,7 +18,7 @@ import com.solusoft.springboot.backend.apirest.models.entity.Factura;
 import com.solusoft.springboot.backend.apirest.models.entity.Producto;
 import com.solusoft.springboot.backend.apirest.models.services.IClienteService;
 
-@CrossOrigin(origins = {"http://localhost:4200"})
+@CrossOrigin(origins = {"http://localhost:4200", "*"})
 @RestController
 @RequestMapping("/api")
 public class FacturaRestController {
